@@ -1,0 +1,110 @@
+Un sistema de ecuaciones lineales se dice que está mal condicionado cuando 
+pequeñas variaciones en los datos del problema (como los coeficientes de la 
+matriz o el vector independiente) pueden producir grandes cambios en la solución. 
+Esto hace que el sistema sea inestable y que los resultados obtenidos no sean confiables.
+
+Definamos un sistema:
+
+A=[2 4 5; 6 9 8; 4.1 5 3]
+A =
+   2.0000   4.0000   5.0000
+   6.0000   9.0000   8.0000
+   4.1000   5.0000   3.0000
+
+b=[220; 490; 274]
+b =
+   220
+   490
+   274
+
+x=inv(A)*b
+x =
+   40
+   10
+   20
+
+Explicación del sistema
+
+1. Número de condición
+-  El número de condición de la matriz 𝐴 que describe el sistema es aproximadamente 450. 
+  Un número de condición por encima de 100 ya sugiere que el sistema es mal condicionado. 
+  Un número de condición alto indica que la matriz 𝐴 está cerca de ser singular, lo que 
+  implica que la solución puede ser muy sensible a pequeños cambios en los datos.
+
+cond(A)
+ans = 449.86
+
+-  En nuestro caso, el número de condición de 449.86 significa que si los datos del sistema 
+  sufrieran una pequeña perturbación, la solución podría cambiar significativamente.
+
+2. Matríz identidad
+A*inv(A)
+ans =
+   1.0000e+00  -5.3291e-15   6.2172e-15
+   7.1054e-15   1.0000e+00   2.1316e-14
+   6.2172e-15  -1.0658e-14   1.0000e+00
+
+-  La matriz identidad es el estándar de una matriz perfectamente bien condicionada, con un 
+  número de condición de 1. Esto se debe a que para la matriz identidad 𝐼, se tiene que 
+  I^-1 = I, lo que implica que||I|| * ||I^-1|| = 1. Cuando el número de condición se aleja 
+  mucho de 1, como en nuestro caso (449.86), esto significa que la matriz 𝐴 se desvía 
+  considerablemente de esta estabilidad ideal, lo que contribuye al mal condicionamiento.
+
+3. Determinante
+-  El determinante de la matriz 𝐴 es otro indicador de cuán bien condicionada está. Si el 
+  determinante es cercano a cero, la matriz es casi singular y el sistema es mal condicionado. 
+  Un número de condición alto sugiere que el determinante de 𝐴 no es muy grande. Esto sugiere
+  que la matriz está cerca de ser no invertible (singular), lo que puede hacer que la solución 
+  sea inestable o difícil de calcular.
+
+det(A)
+ans = -1.3000
+
+Dado que el número de condición de este sistema es bastante alto (449.86), podemos concluir que 
+el sistema es mal condicionado. Aunque no singular (tiene solución), la matriz 𝐴 está lejos de 
+ser ideal para cálculos precisos, ya que una pequeña variación en los valores de la matriz o 
+el vector 𝑏 podría provocar errores significativos en la solución.
+
+Ahora bien. hagamos un pequeño cambio en la matríz A. Cambiemos el valor de 4.1 a 4.2, veamos 
+como afecta al sistema:
+
+A=[2 4 5; 6 9 8; 4.2 5 3]
+A =
+   2.0000   4.0000   5.0000
+   6.0000   9.0000   8.0000
+   4.2000   5.0000   3.0000
+
+b=[220; 490; 274]
+b =
+   220
+   490
+   274
+
+x=inv(A)*b
+x =
+   20.000
+   31.538
+   10.769
+
+1. Número de condición
+-  El número de condición de la nueva matriz 𝐴 es aproximadamente 230, lo que es significativamente 
+  menor que el número de condición original de 450. Aunque el número de condición sigue siendo alto,
+  lo que indica que el sistema es aún mal condicionado, ha mejorado respecto al caso anterior. El 
+  sistema sigue siendo sensible a perturbaciones, pero la estabilidad ha mejorado ligeramente.
+
+cond(A)
+ans = 230.20
+
+2. Nuevo determinante
+-  El nuevo determinante es -2.60, en comparación con el valor original de -1.30. El determinante 
+  ha aumentado en magnitud, lo que indica que la matriz es menos cercana a la singularidad en este 
+  caso. Un determinante mayor en valor absoluto indica una mejora en la estabilidad del sistema. 
+  Aunque no es un valor muy grande, la matriz es más estable que antes.
+
+det(A)
+ans = -2.6000
+
+Un cambio aparentemente pequeño en la matriz ha tenido un impacto notable en el número de condición 
+y el determinante, mejorando la estabilidad del sistema. Sin embargo, el sistema sigue siendo mal 
+condicionado y, por tanto, pequeñas perturbaciones aún podrían afectar la solución de manera 
+significativa, aunque en menor grado que antes.
